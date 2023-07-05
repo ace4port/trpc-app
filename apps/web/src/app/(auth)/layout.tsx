@@ -12,5 +12,6 @@ export default async function AuthLayout({ children }: LayoutProps) {
 
   if (session?.user) redirect("/dashboard");
 
+  // @ts-ignore
   return <Providers>{children}</Providers>;
 }
