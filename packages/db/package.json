@@ -1,0 +1,22 @@
+{
+    "name": "db",
+    "version": "0.1.0",
+    "main": "index.ts",
+    "types": "./index.ts",
+    "scripts": {
+        "clean": "rm -rf .turbo node_modules",
+        "db:generate": "prisma generate",
+        "db:push": "pnpm dotenv -e ../../.env -- prisma db push --skip-generate",
+        "db:pull": "pnpm dotenv -e ../../.env -- prisma db pull",
+        "db:studio": "pnpm dotenv -e ../../.env -- prisma studio --port 5556",
+        "dev": "prisma studio --port 5556"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.16.2"
+    },
+    "devDependencies": {
+        "@types/node": "^18.16.9",
+        "prisma": "^4.16.2",
+        "typescript": "^4.9.5"
+    }
+}
