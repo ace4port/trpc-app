@@ -54,21 +54,20 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 const { register } = credentials as { register: boolean }
                 if (register) {
-                    const { name, email, password, phone } = credentials as {
+                    const { name, email, password } = credentials as {
                         name: string
                         email: string
                         password: string
-                        phone: string
                     }
 
                     const pw = (await bcrypt.hash(password, 10)) as string
 
                     const user = await prisma.user.create({
-                        data: { name: name, email: email, password: pw, phone: phone },
-                        select: { email: true, id: true, name: true, role: true, image: true },
+                        data: { name: name, email: email, password: pw },
+                        select: { email: true, id: true, name: true, image: true },
                     })
 
-                    return { id: user.id, name: user.name, email: user.email, role: user.role, image: user.image }
+                    return { id: user.id, name: user.name, email: user.email, image: user.image }
                 }
                 const { email, password } = credentials as { email: string; password: string }
                 const user = await prisma.user.findUnique({ where: { email: email } })
@@ -77,7 +76,7 @@ export const authOptions: NextAuthOptions = {
                 const passwordMatch = await bcrypt.compare(password, user.password)
                 if (!passwordMatch) throw new Error('Invalid password or email')
 
-                return { id: user.id, name: user.name, email: user.email, role: user.role, image: user.image }
+                return { id: user.id, name: user.name, email: user.email, image: user.image }
             },
         }),
     ],
